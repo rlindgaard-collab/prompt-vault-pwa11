@@ -136,10 +136,10 @@ export default function App(){
 // ---------- Helpers ----------
 
 function toPubHtml(csvUrl){
-  return csvUrl.replace(/\\/pub\\?[^#]+$/, "/pubhtml");
+  return csvUrl.replace(/\/pub\?[^#]+$/, "/pubhtml");
 }
 function toCsv(baseCsv, gid){
-  let url = baseCsv.replace(/(&gid=\\d+)/, "");
+  let url = baseCsv.replace(/(&gid=\d+)/, "");
   if(!/output=csv/.test(url)){ url += (url.includes("?") ? "&" : "?") + "output=csv"; }
   return url + "&gid=" + gid;
 }
@@ -147,9 +147,9 @@ function extractTabs(html, baseCsv){
   const out = [];
   const seen = new Set();
   const patterns = [
-    /data-gid="(\\d+)".*?<span[^>]*class="sheet-button-name"[^>]*>([^<]+)/g,
-    /data-gid="(\\d+)".*?class="docs-sheet-tab-name"[^>]*>([^<]+)/g,
-    /aria-controls="sheet-tab-(\\d+)".*?aria-label="([^"]+)"/g
+    /data-gid="(\d+)".*?<span[^>]*class="sheet-button-name"[^>]*>([^<]+)/g,
+    /data-gid="(\d+)".*?class="docs-sheet-tab-name"[^>]*>([^<]+)/g,
+    /aria-controls="sheet-tab-(\d+)".*?aria-label="([^"]+)"/g
   ];
   for(const re of patterns){
     let m; let any=false;
@@ -181,8 +181,8 @@ function parseCSV(text){
     } else {
       if(ch=='"') inQuotes=true;
       else if(ch==",") pushField();
-      else if(ch=="\\n"){ pushField(); pushRow(); }
-      else if(ch=="\\r"){}
+      else if(ch=="\n"){ pushField(); pushRow(); }
+      else if(ch=="\r"){}
       else field+=ch;
     }
     i++;
